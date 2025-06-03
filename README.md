@@ -30,4 +30,11 @@ Now you can send the "clamd.conf" and "freshclam.conf" files to every endpoint a
 
 ![powershell-clamav](https://github.com/user-attachments/assets/43e89685-c1d9-43f8-b13c-4baa19c4c2fe)
 
-This ".ps1" file is a little bit complex to explain, but you can explore every step by the comments into the file.
+
+# Summary of Functionalities of the ".ps1":
+- Take off the execution restriction policy of scripts powershell;
+- Updates virus definitions (using freshclam).
+- Performs a scan (clamscan) on a specified directory (default: C:\Users).
+- Logs the results to a file (clamscan.log).
+- Create the Task Scheduled to make some scans every startup + some hours (you can adjust at will)
+- Turn on the execution restriction policy of scripts powershell;
