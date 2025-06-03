@@ -10,7 +10,8 @@ Clamav configuration, update and scan.
 Some steps are needed to make a good work:
 
 1.  You need to install the Clamav using the GPO (Group Policy Object) of the AD (Active Directory):
-  Example:
+
+Example:
   ![ad-install-clamav-msi](https://github.com/user-attachments/assets/97a8e3cb-c737-454a-ae8c-d1c65e31b289)
 
 
