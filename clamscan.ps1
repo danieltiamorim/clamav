@@ -6,7 +6,7 @@ Set-ExecutionPolicy Unrestricte -Scope CurrentUser
 # Diretório para os arquivos de log
 $logDir = "C:\Program Files (x86)\ClamAV\logs" 
 
-# Obtém a data e hora atual no formato AAAAMMDD_HHMMSS
+# Obtém a data e hora atual no formato Dia-Mês-Ano_Hora_minuto
 $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm
 
 # Cria o nome do arquivo de log com o timestamp
