@@ -114,6 +114,8 @@ if ($LastExitCode  -ne 0) {
 # Executa o clamscan
 & $clamscanPath -r -i -o $scanPath  --database=$DatabaseDir --move=$TempDir --log=$logFile 
 
+
+#Cria uma pasta com os logs usando alguns dados da máquina - hostname e IP, útil para fazer o upload dos arquivos para um outro servidor, ESSA PARTE AINDA ESTÁ EM DESENVOLVIMENTO.
 $hostname = hostname
 $ip = Get-NetIPAddress -AddressFamily IPv4 | Where-Object {$_.InterfaceAlias -NotLike "Loopback Pseudo-Interface*"}  |Select-Object -ExpandProperty IPAddress 
 $origem = "C:\Program Files (x86)\ClamAV\logs"
@@ -141,4 +143,4 @@ foreach ($arquivo in $arquivos) {
 	 
 break                         
 #Devolver a Restrição de Execução de Script PowerShell no usuário atual
-#Set-ExecutionPolicy Restrict -Scope CurrentUser
+Set-ExecutionPolicy Restrict -Scope CurrentUser
