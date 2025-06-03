@@ -14,7 +14,7 @@ Some steps are needed to make a good work:
   ![ad-install-clamav-msi](https://github.com/user-attachments/assets/97a8e3cb-c737-454a-ae8c-d1c65e31b289)
 
 
-2. Using the Active Directory at the Windows Server, you will send the config files and create the folders, to run Clamav.
+3. Using the Active Directory at the Windows Server, you will send the config files and create the folders, to run Clamav.
    To do this may you need to create another GPO:
    ![image](https://github.com/user-attachments/assets/89e484d5-8071-47d1-a59e-60d82bc1bc9a)
 
