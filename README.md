@@ -1,5 +1,5 @@
 # clamav 
-Clamav configuration and 
+  #Clamav configuration, update and scan.
 
 - "clamd.conf" and "freshclam.conf" are templates of configuration files of the Clamav Scanner Antivirus. 
 - "clamscan.ps1" its an Powershell script file that can help to enable some tasks automatization, like:
