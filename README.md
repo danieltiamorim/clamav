@@ -34,3 +34,10 @@ Example:
 - Logs the results to a file (clamscan.log).
 - Create the Task Scheduled to make some scans every startup + some hours (you can adjust at will)
 - Turn on the execution restriction policy of scripts powershell;
+
+# Update 06/2025 
+- Translated the code to English
+  - I've made the entire original code in Portuguese Language, now its available to English to a better understading.
+  - Made some fixing at the code about the comments and some identation 
+
+
