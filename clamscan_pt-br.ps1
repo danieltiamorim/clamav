@@ -18,10 +18,17 @@ $logFile = Join-Path $logDir "scan_$timestamp.log"
 # Caminho para a pasta a ser escaneada
 $scanPath = "C:\Users" 
 
-$clamscanPath = "C:\Program Files (x86)\ClamAV\clamscan.exe" # Caminho para o executável clamscan
-$DatabaseDir = "C:\Program Files (x86)\ClamAV\database" # Caminho para Base de Dados
-$TempDir = "C:\Program Files (x86)\ClamAV\quarantine" # Caminho para arquivos Temporários em Quarentena
-$freshclamPath = "C:\Program Files (x86)\ClamAV\freshclam.exe" # Atualização da Base de Dados
+# Caminho para o executável clamscan
+$clamscanPath = "C:\Program Files (x86)\ClamAV\clamscan.exe" 
+
+# Caminho para Base de Dados
+$DatabaseDir = "C:\Program Files (x86)\ClamAV\database"
+
+# Caminho para arquivos Temporários em Quarentena
+$TempDir = "C:\Program Files (x86)\ClamAV\quarantine" 
+
+# Atualização da Base de Dados
+$freshclamPath = "C:\Program Files (x86)\ClamAV\freshclam.exe" 
 
 #Define o nome da Tarefa Agendada a ser criada
 $TaskName = "ClamScanTask"
@@ -41,10 +48,11 @@ $task = Get-ScheduledTask
 if ($task.TaskName -eq  $TaskName) { 
                
            try {
-                  # Obtém a data e hora atual no formato dd-MM-yyyy_HH-mm
+                # Obtém a data e hora atual no formato dd-MM-yyyy_HH-mm
                 $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm 
                 $timeStart = Get-Date -Format HH:mm
-                # Cria o nome do arquivo de log com o timestamp
+               
+		# Cria o nome do arquivo de log com o timestamp
                 $logFile = Join-Path $logDir "scan_$timestamp.log" 
                
                 schtasks /CHANGE /TR "'$clamscanPath' -r -i -o '$scanPath'  --database='$DatabaseDir' --move='$TempDir' --log='$logFile' " /RU SYSTEM /ST $timestart  /TN "$TaskName" 
@@ -56,8 +64,7 @@ if ($task.TaskName -eq  $TaskName) {
                 Write-Host  "Tarefa $TaskName EDITADA com sucesso. -- $timestamp"                  
                 echo "A tarefa $TaskName existe. -- $timestamp" | Out-File -FilePath $logTaskFile -Append
                 echo "Tarefa $TaskName EDITADA com sucesso. -- $timestamp" | Out-File -FilePath $logTaskFile -Append
-                 
-                  }
+                }
 
             catch {
             
@@ -65,11 +72,9 @@ if ($task.TaskName -eq  $TaskName) {
                 $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm
                 $logTaskFile = Join-Path $logDir "log_task_creation_$timestamp.txt"
                 Write-Host  "ERRO ao editar a tarefa $TaskName -- $timestamp " 
-                echo  "ERRO ao editar a tarefa $TaskName -- $timestamp - "| Out-File -FilePath $logTaskFile -Append 
-                
-                   }       
-
-}
+                echo  "ERRO ao editar a tarefa $TaskName -- $timestamp - "| Out-File -FilePath $logTaskFile -Append
+		}
+  }
 
 
 if (!($task.TaskName -eq $TaskName))  {
@@ -77,23 +82,20 @@ if (!($task.TaskName -eq $TaskName))  {
             try {
                 schtasks /create /sc hourly  /mo 21 /tn $TaskName /RU SYSTEM /tr "'$clamscanPath' -r -i -o '$scanPath'  --database='$DatabaseDir' --move='$TempDir' --log='$logFile' "
                 # Obtém a data e hora atual no formato dd-MM-yyyy_HH-mm
-                 # Obtém a data e hora atual no formato dd-MM-yyyy_HH-mm
+                
                 $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm
                 $logTaskFile = Join-Path $logDir "log_task_creation_$timestamp.txt"
                 Write-Host  "Tarefa $TaskName CRIADA com sucesso. -- $timestamp"
                 echo  "Tarefa $TaskName CRIADA com sucesso. -- $timestamp" | Out-File -FilePath $logTaskFile -Append
-                
-                     }
+                }
 
             catch {
                  $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm
                 $logTaskFile = Join-Path $logDir "log_task_creation_$timestamp.txt"
                 Write-Host "ERRO ao criar a tarefa $TaskName -- $timestamp"
                 echo  "ERRO ao criar a tarefa $TaskName -- $timestamp - " | Out-File -FilePath $logTaskFile -Append # Inclui a mensagem de erro
-                
-            }
-            
         }
+}
 
 #New-Item -Path "C:\Program Files (x86)\ClamAV\logs\freshclam_$timestamp.log" -ItemType File -Force                            
 $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm
@@ -109,14 +111,14 @@ if ($LastExitCode  -ne 0) {
                            }
 
 
-#Principais Comandos
+
+#Principais Comandos do Clamav
 #-r Recursive
 #-i Only print Infected files
 #-o --suppress-ok-results           Skip printing OK files
 
 # Executa o clamscan
 & $clamscanPath -r -i -o $scanPath  --database=$DatabaseDir --move=$TempDir --log=$logFile 
-
 
 #Cria uma pasta com os logs usando alguns dados da máquina - hostname e IP, útil para fazer o upload dos arquivos para um outro servidor, ESSA PARTE AINDA ESTÁ EM DESENVOLVIMENTO.
 $hostname = hostname
@@ -137,13 +139,13 @@ foreach ($arquivo in $arquivos) {
     Copy-Item -Path $arquivo.FullName -Destination $destinoArquivo
 }
 
-
 # Verifica se houve erros
 #if ($LastExitCode -ne 0) {
 #                           $timestamp = Get-Date -Format dd-MM-yyyy_HH-mm
 #                           echo "ERRO durante o escaneamento. -- $timestamp $_ " | Out-File -FilePath $logFile -Append
 #}
 	 
-break                         
+break  
+
 #Devolver a Restrição de Execução de Script PowerShell no usuário atual
 Set-ExecutionPolicy Restrict -Scope CurrentUser
